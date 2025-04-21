@@ -1,0 +1,58 @@
+@extends('layouts.admin')
+
+@section('content')
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header d-flex justify-content-between align-items-center">
+						<span>{{ __('Workflow Steps for :workflow', ['workflow' => $workflow->name]) }}</span>
+						<a href="{{ route($role.'workflows.steps.create', $workflow) }}" class="btn btn-sm
+						btn-primary">{{ __('Add Step') }}</a>
+					</div>
+
+					<div class="card-body">
+						@if (session('status'))
+							<div class="alert alert-success" role="alert">
+								{{ session('status') }}
+							</div>
+						@endif
+
+						<table class="table table-bordered">
+							<thead>
+							<tr>
+								<th>{{ __('Step #') }}</th>
+								<th>{{ __('Name') }}</th>
+								<th>{{ __('Approver Type') }}</th>
+								<th>{{ __('Approver Value') }}</th>
+								<th>{{ __('Actions') }}</th>
+							</tr>
+							</thead>
+							<tbody>
+							@foreach($steps as $step)
+								<tr>
+									<td>{{ $step->step_number }}</td>
+									<td>{{ $step->name }}</td>
+									<td>{{ ucfirst($step->approver_type) }}</td>
+									<td>{{ $step->approver_value }}</td>
+									<td>
+										<a href="{{ route($role.'workflows.steps.edit', [$workflow, $step]) }}"
+										   class="btn btn-sm btn-info">{{ __('Edit') }}</a>
+										<form action="{{ route($role.'workflows.steps.destroy', [$workflow,
+										$step]) }}" method="POST" class="d-inline">
+											@csrf
+											@method('DELETE')
+											<button type="submit"
+											        class="btn btn-sm btn-danger">{{ __('Delete') }}</button>
+										</form>
+									</td>
+								</tr>
+							@endforeach
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+@endsection

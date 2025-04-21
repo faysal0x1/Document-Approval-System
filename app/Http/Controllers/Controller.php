@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Traits\AjaxResponse;
+use App\Traits\FlashMessages;
+use App\Traits\NotificationHelper;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+
+abstract class Controller
+{
+    use AjaxResponse, FlashMessages, NotificationHelper, ValidatesRequests;
+
+    //    public function __construct()
+    //    {
+    //        $this->shareSidebarData();
+    //    }
+
+    //    protected function shareSidebarData()
+    //    {
+    //        if (auth()->check()) {
+    //            $pendingApprovalsCount = auth()->user()->pendingApprovals()->count();
+    //            $pendingDocumentsCount = auth()->user()->documents()
+    //                ->where('status', 'pending')
+    //                ->count();
+    //            $notificationsCount = auth()->user()->unreadNotifications()->count();
+    //
+    //            view()->share([
+    //                'pendingApprovalsCount' => $pendingApprovalsCount,
+    //                'pendingDocumentsCount' => $pendingDocumentsCount,
+    //                'notificationsCount' => $notificationsCount,
+    //            ]);
+    //        }
+    //    }
+}

@@ -1,0 +1,158 @@
+/* .pricing-header {
+    background-color: white;
+    padding: 15px 0;
+    transition: all 0.3s;
+    z-index: 1000;
+    border: 2px solid black;
+
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+} */
+ .buy-btn{
+    
+ }
+.pricing {
+    width: 80%;
+    margin-left: 150px;
+}
+
+.pricing-header {
+    background-color: white;
+    padding: 15px 0;
+    transition: all 0.3s;
+    z-index: 1000;
+    border: 2px solid black;
+    /* width: 80%; */
+    max-width: 900px;
+    margin: 0 auto;
+    /* Center it initially */
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    /* width: 100%; */
+    /* Full width when sticky */
+    left: 0;
+    /* Align from the left */
+    max-width: 100%;
+    /* Ensure it fully expands */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease-in-out;
+}
+
+
+.price-table {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.current-price {
+    color: #0d233f;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.plan-name {
+    color: #ff6600;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.maintenance {
+    color: #ff6600;
+}
+
+.services {
+    color: #0d233f;
+}
+
+.buy-btn {
+    background-color: #ff6600;
+    border: none;
+    padding: 8px 30px;
+}
+
+.buy-btn:hover {
+    background-color: #e65c00;
+}
+
+.feature-row {
+    border-bottom: 1px solid #dee2e6;
+    padding: 15px 0;
+}
+
+.feature-title {
+    color: #0d233f;
+    font-weight: 500;
+}
+
+.check-icon {
+    color: #00ca72;
+    font-size: 1.2rem;
+}
+
+.monthly-services {
+    color: #0d233f;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 20px 0 10px 10px;
+}
+
+.info-icon {
+    color: #6c757d;
+    font-size: 0.9rem;
+    cursor: help;
+}
+
+.pricing {
+    /* width: 80%; */
+    /* display: flex; */
+    /* justify-content: center; */
+    padding: 100px;
+}
+
+/* chat gpt */
+
+/* Example styling, adjust as needed */
+.pricing-container {
+    /* width: 80%; */
+    /* Adjust based on your layout */
+    max-width: 900px;
+    /* Set a max width to keep it compact */
+    margin: 0 auto;
+    /* Center the container */
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 80%;
+    /* Match pricing section */
+    max-width: 900px;
+    /* Keep it compact */
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    /* Ensure it doesn't look transparent */
+    /* z-index: 1000; */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* Optional shadow */
+}
+

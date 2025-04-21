@@ -1,0 +1,49 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class RoleSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $roles = [
+            ['name' => 'oms-super-admin', 'display_name' => 'OMS Super Admin'],
+            ['name' => 'oms-admin', 'display_name' => 'OMS Admin'],
+
+            ['name' => 'super-admin', 'display_name' => 'Super Admin'],
+            ['name' => 'admin', 'display_name' => 'Admin'],
+
+            ['name' => 'manager', 'display_name' => 'Manager'],
+            ['name' => 'hr-manager', 'display_name' => 'HR Manager'],
+
+            ['name' => 'finance-manager', 'display_name' => 'Finance Manager'],
+            ['name' => 'accountant', 'display_name' => 'Accountant'],
+
+            ['name' => 'auditor', 'display_name' => 'Auditor'],
+            ['name' => 'cashier', 'display_name' => 'Cashier'],
+
+            ['name' => 'sales-executive', 'display_name' => 'Sales Executive'],
+            ['name' => 'store-manager', 'display_name' => 'Store Manager'],
+
+            ['name' => 'storekeeper', 'display_name' => 'Storekeeper'],
+            ['name' => 'purchasing-officer', 'display_name' => 'Purchasing Officer'],
+
+            ['name' => 'employee', 'display_name' => 'Employee'],
+            ['name' => 'customer', 'display_name' => 'Customer'],
+            ['name' => 'vendor', 'display_name' => 'Vendor'],
+            ['name' => 'developer', 'display_name' => 'Developer'],
+            ['name' => 'support-agent', 'display_name' => 'Support Agent'],
+            ['name' => 'user', 'display_name' => 'User'],
+        ];
+
+        DB::table('roles')->insert($roles);
+    }
+}

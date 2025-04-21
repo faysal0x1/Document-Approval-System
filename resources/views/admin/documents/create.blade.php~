@@ -1,0 +1,207 @@
+@extends('layouts.admin')
+
+@section('content')
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<div class="card">
+					<div class="card-header">Submit New Document</div>
+
+					<div class="card-body">
+						<form method="POST" action="{{ route('documents.store') }}" enctype="multipart/form-data">
+							@csrf
+
+							<div class="form-group row">
+								<label for="type" class="col-md-4 col-form-label text-md-right">Document Type</label>
+
+								<div class="col-md-6">
+									<select id="type" class="form-control @error('type') is-invalid @enderror" name="type" required>
+										<option value="">Select Document Type</option>
+										@foreach($workflows as $workflow)
+											<option value="{{ $workflow->document_type }}" {{ old('type') == $workflow->document_type ? 'selected' : '' }}>
+												{{ $workflow->name }}
+											</option>
+										@endforeach
+									</select>
+
+									@error('type')
+									<span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+									@enderror
+								</div>
+							</div>
+
+							<!-- Dynamic fields based on document type -->
+							<div id="document-fields">
+								<!-- Fields will be loaded via JavaScript -->
+							</div>
+
+							<div class="form-group row">
+								<label for="attachments" class="col-md-4 col-form-label text-md-right">Attachments</label>
+
+								<div class="col-md-6">
+									<input id="attachments" type="file" class="form-control-file @error('attachments') is-invalid @enderror" name="attachments[]" multiple>
+
+									@error('attachments')
+									<span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+									@enderror
+								</div>
+							</div>
+
+							<div class="form-group row mb-0">
+								<div class="col-md-6 offset-md-4">
+									<button type="submit" class="btn btn-primary">
+										Submit Document
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+@endsection
+
+@push('script')
+	<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const typeSelect = document.getElementById('type');
+            const fieldsContainer = document.getElementById('document-fields');
+
+            const documentFields = {
+                'leave_application': `
+                <div class="form-group row">
+                    <label for="start_date" class="col-md-4 col-form-label text-md-right">Start Date</label>
+                    <div class="col-md-6">
+                        <input type="date" class="form-control" name="content[start_date]" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="end_date" class="col-md-4 col-form-label text-md-right">End Date</label>
+                    <div class="col-md-6">
+                        <input type="date" class="form-control" name="content[end_date]" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="reason" class="col-md-4 col-form-label text-md-right">Reason</label>
+                    <div class="col-md-6">
+                        <textarea class="form-control" name="content[reason]" required></textarea>
+                    </div>
+                </div>
+            `,
+                'expense_claim': `
+                <div class="form-group row">
+                    <label for="expense_date" class="col-md-4 col-form-label text-md-right">Expense Date</label>
+                    <div class="col-md-6">
+                        <input type="date" class="form-control" name="content[expense_date]" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="amount" class="col-md-4 col-form-label text-md-right">Amount</label>
+                    <div class="col-md-6">
+                        <input type="number" step="0.01" class="form-control" name="content[amount]" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description" class="col-md-4 col-form-label text-md-right">Description</label>
+                    <div class="col-md-6">
+                        <textarea class="form-control" name="content[description]" required></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="category" class="col-md-4 col-form-label text-md-right">Category</label>
+                    <div class="col-md-6">
+                        <select class="form-control" name="content[category]" required>
+                            <option value="travel">Travel</option>
+                            <option value="meals">Meals</option>
+                            <option value="accommodation">Accommodation</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+            `,
+                'purchase_order': `
+                <div class="form-group row">
+                    <label for="supplier" class="col-md-4 col-form-label text-md-right">Supplier</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="content[supplier]" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="items" class="col-md-4 col-form-label text-md-right">Items</label>
+                    <div class="col-md-6">
+                        <div id="po-items">
+                            <div class="item-row mb-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="content[items][0][description]" placeholder="Description" required>
+                                    <input type="number" class="form-control" name="content[items][0][quantity]" placeholder="Qty" required>
+                                    <input type="number" step="0.01" class="form-control" name="content[items][0][unit_price]" placeholder="Unit Price" required>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-danger remove-item" type="button">×</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-secondary mt-2" id="add-item">Add Item</button>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="delivery_date" class="col-md-4 col-form-label text-md-right">Delivery Date</label>
+                    <div class="col-md-6">
+                        <input type="date" class="form-control" name="content[delivery_date]">
+                    </div>
+                </div>
+            `
+            };
+
+            typeSelect.addEventListener('change', function() {
+                const selectedType = this.value;
+                fieldsContainer.innerHTML = documentFields[selectedType] || '';
+
+                // Initialize item adding for purchase orders
+                if (selectedType === 'purchase_order') {
+                    initPurchaseOrderItems();
+                }
+            });
+
+            function initPurchaseOrderItems() {
+                const itemsContainer = document.getElementById('po-items');
+                const addButton = document.getElementById('add-item');
+                let itemCount = 1;
+
+                addButton.addEventListener('click', function() {
+                    const newItem = document.createElement('div');
+                    newItem.className = 'item-row mb-2';
+                    newItem.innerHTML = `
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="content[items][${itemCount}][description]" placeholder="Description" required>
+                        <input type="number" class="form-control" name="content[items][${itemCount}][quantity]" placeholder="Qty" required>
+                        <input type="number" step="0.01" class="form-control" name="content[items][${itemCount}][unit_price]" placeholder="Unit Price" required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-danger remove-item" type="button">×</button>
+                        </div>
+                    </div>
+                `;
+                    itemsContainer.appendChild(newItem);
+                    itemCount++;
+                });
+
+                itemsContainer.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('remove-item')) {
+                        e.target.closest('.item-row').remove();
+                    }
+                });
+            }
+
+            if (typeSelect.value) {
+                typeSelect.dispatchEvent(new Event('change'));
+            }
+        });
+	</script>
+@endpush

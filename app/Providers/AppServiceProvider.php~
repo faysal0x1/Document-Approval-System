@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Providers;
+
+use App\Models\Permission;
+use App\Models\Role;
+use App\Observers\PermissionObserver;
+use App\Observers\RoleObserver;
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        $this->app->bind(ApproverResolverInterface::class, function ($app, $params) {
+            $type = $params['type'] ?? 'role';
+
+            return $type === 'department'
+                ? new DepartmentBasedApproverResolver
+                : new RoleBasedApproverResolver;
+        });
+
+        $this->app->singleton(WorkflowStepHandler::class);
+        $this->app->singleton(WorkflowEngine::class);
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        Permission::observe(PermissionObserver::class);
+        Role::observe(RoleObserver::class);
+
+    }
+}

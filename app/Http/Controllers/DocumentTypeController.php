@@ -1,0 +1,139 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\DocumentType;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
+
+class DocumentTypeController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        if (request()->ajax()) {
+            $data = DocumentType::latest()->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('status', function ($row) {
+                    return view('components.status-toggle', [
+                        'id' => $row->id,
+                        'permission' => 'documentType',
+                        'model' => 'documentType',
+                        'status' => $row->status,
+                    ])->render();
+                })
+                ->addColumn('action', function ($row) {
+                    return view('components.action-buttons', [
+                        'id' => $row->id,
+                        'model' => 'documentType',
+                        'permission' => 'documentType',
+                        'loadEditModal' => 'editModal',
+                        'loadEditModalRoute' => 'document-types.edit',
+                        'deleteRoute' => 'document-types.destroy',
+                    ])->render();
+                })
+                ->rawColumns(['action', 'status'])
+                ->make(true);
+        }
+
+        return view('admin.docuement-type.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('admin.docuement-type.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            DocumentType::create([
+                'name' => $request->name,
+            ]);
+
+            DB::commit();
+
+            return $this->success('Document Type created successfully');
+
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return $this->error('Something Went Wrong : ', $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $data = DocumentType::findOrFail($id);
+
+        return view('admin.docuement-type.edit', compact('data'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $data = DocumentType::findOrFail($id);
+
+            $data->update([
+                'name' => $request->name,
+            ]);
+            DB::commit();
+
+            return $this->success('Document type updated successfully');
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return $this->error('Something Went Wrong : ', $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        try {
+            DB::beginTransaction();
+            $data = DocumentType::findOrFail($id);
+
+            $data->delete();
+
+            DB::commit();
+
+            return $this->success('DocumentType Deleted successfully');
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return $this->error('Something Went Wrong : ', $e->getMessage(), 500);
+        }
+    }
+}

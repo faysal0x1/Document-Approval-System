@@ -1,0 +1,108 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Workflow;
+use App\Models\WorkflowStep;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+
+class WorkflowController extends Controller
+{
+    /**
+     * Display a listing of workflows
+     */
+    public function index()
+    {
+        $workflows = Workflow::withCount('steps')->latest()->get();
+
+        return view('admin.workflows.index', compact('workflows'));
+    }
+
+    /**
+     * Show the form for creating a new workflow
+     */
+    public function create()
+    {
+        return view('admin.workflows.create');
+    }
+
+    /**
+     * Store a newly created workflow
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'document_type' => 'required|string|unique:workflows,document_type',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
+            'is_active' => 'boolean',
+        ]);
+
+        Workflow::create($validated);
+
+        return redirect()->route('admin.workflows.index')
+            ->with('success', 'Workflow created successfully');
+    }
+
+    public function edit(Workflow $workflow)
+    {
+        $workflow->load('steps');
+
+        return view('admin.workflows.edit', compact('workflow'));
+    }
+
+    public function update(Request $request, Workflow $workflow): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+            'is_active' => 'boolean',
+        ]);
+
+        $workflow->update($validated);
+
+        return redirect()->route('admin.workflows.index')
+            ->with('success', 'Workflow updated successfully');
+    }
+
+    public function addStep(Request $request, Workflow $workflow): RedirectResponse
+    {
+        $validated = $request->validate([
+            'step_number' => 'required|integer|min:1',
+            'approver_type' => 'required|in:role,department',
+            'approver_value' => 'required|string',
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+
+        if ($workflow->steps()->where('step_number', $validated['step_number'])->exists()) {
+            return back()->with('error', 'Step number already exists');
+        }
+
+        $workflow->steps()->create($validated);
+
+        return back()->with('success', 'Step added successfully');
+    }
+
+    public function updateStep(Request $request, WorkflowStep $step): RedirectResponse
+    {
+        $validated = $request->validate([
+            'approver_type' => 'required|in:role,department',
+            'approver_value' => 'required|string',
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+
+        $step->update($validated);
+
+        return back()->with('success', 'Step updated successfully');
+    }
+
+    public function deleteStep(WorkflowStep $step): RedirectResponse
+    {
+        $step->delete();
+
+        return back()->with('success', 'Step deleted successfully');
+    }
+}

@@ -1,0 +1,359 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class PermissionSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $permissions = [
+            ['name' => 'dashboard_view', 'display_name' => 'View Dashboard', 'description' => 'Can view dashboard', 'category' => 'Dashboard'],
+
+            // Store Permissions
+            ['name' => 'store_manage', 'display_name' => 'Manage Stores', 'description' => 'Can manage store list', 'category' => 'Stores'],
+            ['name' => 'store_view', 'display_name' => 'View Stores', 'description' => 'Can view store list', 'category' => 'Stores'],
+            ['name' => 'store_create', 'display_name' => 'Create Store', 'description' => 'Can create new store', 'category' => 'Stores'],
+            ['name' => 'store_edit', 'display_name' => 'Edit Store', 'description' => 'Can edit store details', 'category' => 'Stores'],
+            ['name' => 'store_status', 'display_name' => 'Status Store', 'description' => 'Can status store details', 'category' => 'Stores'],
+            ['name' => 'store_delete', 'display_name' => 'Delete Store', 'description' => 'Can delete store', 'category' => 'Stores'],
+
+            // Stock Transfer Permissions
+            ['name' => 'stock_transfer_manage', 'display_name' => 'Manage Stock Transfers', 'description' => 'Can view stock transfer list', 'category' => 'Stock Transfer'],
+            ['name' => 'stock_transfer_view', 'display_name' => 'View Stock Transfers', 'description' => 'Can view stock transfer list', 'category' => 'Stock Transfer'],
+            ['name' => 'stock_transfer_create', 'display_name' => 'Create Stock Transfer', 'description' => 'Can create stock transfer', 'category' => 'Stock Transfer'],
+            ['name' => 'stock_transfer_edit', 'display_name' => 'Edit Stock Transfer', 'description' => 'Can edit stock transfer', 'category' => 'Stock Transfer'],
+            ['name' => 'stock_transfer_status', 'display_name' => 'Status Stock Transfer', 'description' => 'Can status stock transfer', 'category' => 'Stock Transfer'],
+            ['name' => 'stock_transfer_delete', 'display_name' => 'Delete Stock Transfer', 'description' => 'Can delete stock transfer', 'category' => 'Stock Transfer'],
+
+            // POS Permissions
+            ['name' => 'pos_manage', 'display_name' => 'Manage POS', 'description' => 'Can Manage Point of Sale', 'category' => 'Point of Sale'],
+            ['name' => 'pos_view', 'display_name' => 'View POS', 'description' => 'Can access Point of Sale', 'category' => 'Point of Sale'],
+            ['name' => 'pos_see_recent', 'display_name' => 'Can See Recent POS', 'description' => 'Can see recent POS', 'category' => 'Point of Sale'],
+            ['name' => 'pos_hold', 'display_name' => 'Can See Recent POS', 'description' => 'Can Hold POS', 'category' => 'Point of Sale'],
+            ['name' => 'pos_create', 'display_name' => 'Create POS Sale', 'description' => 'Can create POS sale', 'category' => 'Point of Sale'],
+            ['name' => 'pos_report_view', 'display_name' => 'View POS Reports', 'description' => 'Can view POS reports', 'category' => 'Point of Sale'],
+            ['name' => 'pos_shadow_report_view', 'display_name' => 'View POS Reports', 'description' => 'Can view POS reports', 'category' => 'Point of Sale'],
+
+            // POS Additional Permissions
+            ['name' => 'pos_return_manage', 'display_name' => 'Manage POS Returns', 'description' => 'Can manage POS returns', 'category' => 'Point of Sale'],
+            ['name' => 'pos_return_view', 'display_name' => 'View POS Returns', 'description' => 'Can view POS returns', 'category' => 'Point of Sale'],
+            ['name' => 'pos_refund_manage', 'display_name' => 'Manage POS Refunds', 'description' => 'Can manage POS refunds', 'category' => 'Point of Sale'],
+            ['name' => 'pos_refund_view', 'display_name' => 'View POS Refunds', 'description' => 'Can view POS refunds', 'category' => 'Point of Sale'],
+            ['name' => 'pos_damage_manage', 'display_name' => 'Manage POS Damaged Products', 'description' => 'Can manage POS damaged products', 'category' => 'Point of Sale'],
+            ['name' => 'pos_damage_view', 'display_name' => 'View POS Damaged Products', 'description' => 'Can view POS damaged products', 'category' => 'Point of Sale'],
+
+            // Contacts Permissions
+            ['name' => 'contact_manage', 'display_name' => 'Manage Contacts', 'description' => 'Can manage contact list', 'category' => 'Contacts'],
+            ['name' => 'contact_view', 'display_name' => 'View Contacts', 'description' => 'Can view contact list', 'category' => 'Contacts'],
+            ['name' => 'contact_create', 'display_name' => 'Create Contact', 'description' => 'Can create new contact', 'category' => 'Contacts'],
+            ['name' => 'contact_edit', 'display_name' => 'Edit Contact', 'description' => 'Can edit contact details', 'category' => 'Contacts'],
+            ['name' => 'contact_status', 'display_name' => 'Status Contact', 'description' => 'Can update contact status', 'category' => 'Contacts'],
+            ['name' => 'contact_delete', 'display_name' => 'Delete Contact', 'description' => 'Can delete contact', 'category' => 'Contacts'],
+
+            // Customer Permissions
+            ['name' => 'customer_view', 'display_name' => 'View Customers', 'description' => 'Can view customer list', 'category' => 'Customers'],
+            ['name' => 'customer_create', 'display_name' => 'Create Customer', 'description' => 'Can create new customer', 'category' => 'Customers'],
+            ['name' => 'customer_edit', 'display_name' => 'Edit Customer', 'description' => 'Can edit customer details', 'category' => 'Customers'],
+            ['name' => 'customer_status', 'display_name' => 'Status Customer', 'description' => 'Can status customer details', 'category' => 'Customers'],
+            ['name' => 'customer_delete', 'display_name' => 'Delete Customer', 'description' => 'Can delete customer', 'category' => 'Customers'],
+
+            // Supplier Permissions
+            ['name' => 'supplier_view', 'display_name' => 'View Suppliers', 'description' => 'Can view supplier list', 'category' => 'Suppliers'],
+            ['name' => 'supplier_create', 'display_name' => 'Create Supplier', 'description' => 'Can create new supplier', 'category' => 'Suppliers'],
+            ['name' => 'supplier_edit', 'display_name' => 'Edit Supplier', 'description' => 'Can edit supplier details', 'category' => 'Suppliers'],
+            ['name' => 'supplier_status', 'display_name' => 'Status Supplier', 'description' => 'Can status supplier details', 'category' => 'Suppliers'],
+            ['name' => 'supplier_delete', 'display_name' => 'Delete Supplier', 'description' => 'Can delete supplier', 'category' => 'Suppliers'],
+
+            // Sell Permissions
+            ['name' => 'sell_manage', 'display_name' => 'manage Sells', 'description' => 'Can manage sell list', 'category' => 'Sells'],
+            ['name' => 'sell_view', 'display_name' => 'View Sells', 'description' => 'Can view sell list', 'category' => 'Sells'],
+            ['name' => 'sell_create', 'display_name' => 'Create Sell', 'description' => 'Can create new sell', 'category' => 'Sells'],
+            ['name' => 'sell_edit', 'display_name' => 'Edit Sell', 'description' => 'Can edit sell details', 'category' => 'Sells'],
+            ['name' => 'sell_status', 'display_name' => 'Status Sell', 'description' => 'Can status sell details', 'category' => 'Sells'],
+            ['name' => 'sell_delete', 'display_name' => 'Delete Sell', 'description' => 'Can delete sell', 'category' => 'Sells'],
+            ['name' => 'sell_return_manage', 'display_name' => 'Manage Sales Returns', 'description' => 'Can manage sales returns', 'category' => 'Sales'],
+            ['name' => 'sell_return_view', 'display_name' => 'View Sales Returns', 'description' => 'Can view sales returns', 'category' => 'Sales'],
+            ['name' => 'sell_restricted_products', 'display_name' => 'Can Sell Restricted Products', 'description' => 'Can sell restricted products', 'category' => 'Point of Sale'],
+
+            // Purchase Permissions
+            ['name' => 'purchase_manage', 'display_name' => 'manage Purchases', 'description' => 'Can manage purchase list', 'category' => 'Purchases'],
+            ['name' => 'purchase_view', 'display_name' => 'View Purchases', 'description' => 'Can view purchase list', 'category' => 'Purchases'],
+            ['name' => 'purchase_create', 'display_name' => 'Create Purchase', 'description' => 'Can create new purchase', 'category' => 'Purchases'],
+            ['name' => 'purchase_edit', 'display_name' => 'Edit Purchase', 'description' => 'Can edit purchase details', 'category' => 'Purchases'],
+            ['name' => 'purchase_status', 'display_name' => 'Status Purchase', 'description' => 'Can status purchase details', 'category' => 'Purchases'],
+            ['name' => 'purchase_delete', 'display_name' => 'Delete Purchase', 'description' => 'Can delete purchase', 'category' => 'Purchases'],
+            ['name' => 'purchase_return_view', 'display_name' => 'View Purchase Returns', 'description' => 'Can view purchase returns', 'category' => 'Purchases'],
+
+            // Product Category Permissions
+            ['name' => 'product_category_view', 'display_name' => 'View Product Categories', 'description' => 'Can view product category list', 'category' => 'Product Category'],
+            ['name' => 'product_category_create', 'display_name' => 'Create Product Category', 'description' => 'Can create new product category', 'category' => 'Product Category'],
+            ['name' => 'product_category_edit', 'display_name' => 'Edit Product Category', 'description' => 'Can edit product category details', 'category' => 'Product Category'],
+            ['name' => 'product_category_status', 'display_name' => 'Status Product Category', 'description' => 'Can status product category details', 'category' => 'Product Category'],
+            ['name' => 'product_category_delete', 'display_name' => 'Delete Product Category', 'description' => 'Can delete product category', 'category' => 'Product Category'],
+
+            // Product Sub Category Permissions
+            ['name' => 'product_sub_category_view', 'display_name' => 'View Product Categories', 'description' => 'Can view product Sub category list', 'category' => 'Product Sub Category'],
+            ['name' => 'product_sub_category_create', 'display_name' => 'Create Product Sub Category', 'description' => 'Can create new product Sub category', 'category' => 'Product Sub Category'],
+            ['name' => 'product_sub_category_edit', 'display_name' => 'Edit Product Sub Category', 'description' => 'Can edit product Sub category details', 'category' => 'Product Sub Category'],
+            ['name' => 'product_sub_category_status', 'display_name' => 'Status Product Sub Category', 'description' => 'Can status product Sub category details', 'category' => 'Product Sub Category'],
+            ['name' => 'product_sub_category_delete', 'display_name' => 'Delete Product Sub Category', 'description' => 'Can delete product Sub category', 'category' => 'Product Sub Category'],
+
+            // Product Permissions
+            ['name' => 'product_manage', 'display_name' => 'Manage Products', 'description' => 'Can manage product list', 'category' => 'Products'],
+            ['name' => 'product_view', 'display_name' => 'View Products', 'description' => 'Can view product list', 'category' => 'Products'],
+            [
+                'name' => 'inactive_product_view',
+                'display_name' => 'View Inactive Products',
+                'description' => 'Can view Inactive product list',
+                'category' => 'Products',
+            ],
+            ['name' => 'product_create', 'display_name' => 'Create Product', 'description' => 'Can create new product', 'category' => 'Products'],
+            ['name' => 'product_edit', 'display_name' => 'Edit Product', 'description' => 'Can edit product details', 'category' => 'Products'],
+            ['name' => 'product_status', 'display_name' => 'Status Product', 'description' => 'Can status product details', 'category' => 'Products'],
+            ['name' => 'product_delete', 'display_name' => 'Delete Product', 'description' => 'Can delete product', 'category' => 'Products'],
+
+            // Product unit Permissions
+            ['name' => 'product_unit_view', 'display_name' => 'View Products Unit', 'description' => 'Can view product unit list', 'category' => 'Products'],
+            ['name' => 'product_unit_create', 'display_name' => 'Create Product Unit', 'description' => 'Can create new product unit', 'category' => 'Products'],
+            ['name' => 'product_unit_edit', 'display_name' => 'Edit Product Unit', 'description' => 'Can edit product unit details', 'category' => 'Products'],
+            ['name' => 'product_unit_status', 'display_name' => 'Status Product Unit', 'description' => 'Can status product unit details', 'category' => 'Products'],
+            ['name' => 'product_unit_delete', 'display_name' => 'Delete Product Unit', 'description' => 'Can delete product unit', 'category' => 'Products'],
+
+            // Product brand Permissions
+            ['name' => 'brand_view', 'display_name' => 'View Brand', 'description' => 'Can view product unit list', 'category' => 'Products'],
+            ['name' => 'brand_create', 'display_name' => 'Create Brand', 'description' => 'Can create new brand', 'category' => 'Products'],
+            ['name' => 'brand_edit', 'display_name' => 'Edit Brand', 'description' => 'Can edit brand details', 'category' => 'Products'],
+            ['name' => 'brand_status', 'display_name' => 'Status Brand', 'description' => 'Can status brand details', 'category' => 'Products'],
+            ['name' => 'brand_delete', 'display_name' => 'Delete Brand', 'description' => 'Can delete brand', 'category' => 'Products'],
+
+            // Damage Type Permissions
+            ['name' => 'damage_type_manage', 'display_name' => 'Manage damage type', 'description' => 'Can manage damage type list', 'category' => 'Products'],
+            ['name' => 'damage_type_view', 'display_name' => 'View damage type', 'description' => 'Can view damage type list', 'category' => 'Products'],
+            ['name' => 'damage_type_create', 'display_name' => 'Create damage type', 'description' => 'Can create new damage type', 'category' => 'Products'],
+            ['name' => 'damage_type_edit', 'display_name' => 'Edit damage type', 'description' => 'Can edit damage type details', 'category' => 'Products'],
+            ['name' => 'damage_type_status', 'display_name' => 'Status damage type', 'description' => 'Can status damage type details', 'category' => 'Products'],
+            ['name' => 'damage_type_delete', 'display_name' => 'Delete damage type', 'description' => 'Can delete damage type', 'category' => 'Products'],
+
+            // Damage items Permissions
+            ['name' => 'damage_items_view', 'display_name' => 'View damage items', 'description' => 'Can view damage items list', 'category' => 'Products'],
+            ['name' => 'damage_items_create', 'display_name' => 'Create damage items', 'description' => 'Can create new damage items', 'category' => 'Products'],
+            ['name' => 'damage_items_edit', 'display_name' => 'Edit damage items', 'description' => 'Can edit damage items details', 'category' => 'Products'],
+            ['name' => 'damage_items_status', 'display_name' => 'Status damage items', 'description' => 'Can status damage items details', 'category' => 'Products'],
+            ['name' => 'damage_items_delete', 'display_name' => 'Delete damage items', 'description' => 'Can delete damage items', 'category' => 'Products'],
+
+            // Expense Permissions
+            ['name' => 'expense_manage', 'display_name' => 'Manage Expenses', 'description' => 'Can manage expense list', 'category' => 'Expenses'],
+            ['name' => 'expense_view', 'display_name' => 'View Expenses', 'description' => 'Can view expense list', 'category' => 'Expenses'],
+            ['name' => 'expense_create', 'display_name' => 'Create Expense', 'description' => 'Can create new expense', 'category' => 'Expenses'],
+            ['name' => 'expense_edit', 'display_name' => 'Edit Expense', 'description' => 'Can edit expense details', 'category' => 'Expenses'],
+            ['name' => 'expense_status', 'display_name' => 'Status Expense', 'description' => 'Can status expense details', 'category' => 'Expenses'],
+            ['name' => 'expense_delete', 'display_name' => 'Delete Expense', 'description' => 'Can delete expense', 'category' => 'Expenses'],
+
+            // Expense Category Permissions
+            ['name' => 'expense_category_view', 'display_name' => 'View Expense Categories', 'description' => 'Can view expense category list', 'category' => 'Expense Categories'],
+            ['name' => 'expense_category_create', 'display_name' => 'Create Expense Category', 'description' => 'Can create new expense category', 'category' => 'Expense Categories'],
+            ['name' => 'expense_category_edit', 'display_name' => 'Edit Expense Category', 'description' => 'Can edit expense category details', 'category' => 'Expense Categories'],
+            ['name' => 'expense_category_status', 'display_name' => 'Status Expense Category', 'description' => 'Can status expense category details', 'category' => 'Expense Categories'],
+            ['name' => 'expense_category_delete', 'display_name' => 'Delete Expense Category', 'description' => 'Can delete expense category', 'category' => 'Expense Categories'],
+
+            // Report Permissions
+            ['name' => 'report_manage', 'display_name' => 'Manage Report', 'description' => 'Can  manage reports', 'category' => 'Reports'],
+            ['name' => 'report_expense_view', 'display_name' => 'View Expense Reports', 'description' => 'Can view expense reports', 'category' => 'Reports'],
+            ['name' => 'report_profit_loss_view', 'display_name' => 'View Profit/Loss Reports', 'description' => 'Can view profit and loss reports', 'category' => 'Reports'],
+            [
+                'name' => 'report_sell_view',
+                'display_name' => 'Sell Reports',
+                'description' => 'Can See Sell reports',
+                'category' => 'Reports',
+            ],
+
+            [
+                'name' => 'report_pos_view',
+                'display_name' => 'Pos Reports',
+                'description' => 'Can See POS reports',
+                'category' => 'Reports',
+            ],
+            [
+                'name' => 'report_sale_prediction_view',
+                'display_name' => 'Sell prediction Reports',
+                'description' => 'Can See Sell Prediction reports',
+                'category' => 'Reports',
+            ],
+            // Settings Permissions
+            ['name' => 'role_assignment_view', 'display_name' => 'Manage Role Assignments', 'description' => 'Can manage user role assignments', 'category' => 'Settings'],
+            ['name' => 'oms_role_view', 'display_name' => 'Manage Oms Roles ', 'description' => 'Can manage user role assignments', 'category' => 'Settings'],
+            [
+                'name' => 'my_roles_view',
+                'display_name' => 'Manage My Roles',
+                'description' => 'Can manage My Roles',
+                'category' => 'Settings',
+            ],
+
+            ['name' => 'currency_view', 'display_name' => 'View Currency Settings', 'description' => 'Can view currency settings', 'category' => 'Settings'],
+
+            // payment type
+            ['name' => 'payment_type_view', 'display_name' => 'View Payment Types', 'description' => 'Can view payment types', 'category' => 'Settings'],
+            ['name' => 'payment_type_create', 'display_name' => 'Create payment types', 'description' => 'Can create new payment types', 'category' => 'payment types'],
+            ['name' => 'payment_type_edit', 'display_name' => 'Edit payment types', 'description' => 'Can edit payment types details', 'category' => 'payment types'],
+            ['name' => 'payment_type_status', 'display_name' => 'Status payment types', 'description' => 'Can status payment types details', 'category' => 'payment types'],
+            ['name' => 'payment_type_delete', 'display_name' => 'Delete payment types', 'description' => 'Can delete payment types', 'category' => 'payment types'],
+
+            // company Permissions
+            ['name' => 'company_manage', 'display_name' => 'Manage companys', 'description' => 'Can manage company list', 'category' => 'company'],
+            ['name' => 'company_view', 'display_name' => 'View companys', 'description' => 'Can view company list', 'category' => 'company'],
+            ['name' => 'company_create', 'display_name' => 'Create company', 'description' => 'Can create new company', 'category' => 'company'],
+            ['name' => 'company_edit', 'display_name' => 'Edit company', 'description' => 'Can edit company details', 'category' => 'company'],
+            ['name' => 'company_status', 'display_name' => 'Status company', 'description' => 'Can status company details', 'category' => 'company'],
+            ['name' => 'company_delete', 'display_name' => 'Delete company', 'description' => 'Can delete company', 'category' => 'company'],
+
+            // Import Export Permissions
+            ['name' => 'import_export_manage', 'display_name' => 'Manage Import Exports', 'description' => 'Can manage Import Export list', 'category' => 'Import Export'],
+            ['name' => 'import_export_view', 'display_name' => 'View Import Exports', 'description' => 'Can view Import Export list', 'category' => 'Import Export'],
+            ['name' => 'import_export_create', 'display_name' => 'Create Import Export', 'description' => 'Can create new Import Export', 'category' => 'Import Export'],
+            ['name' => 'import_export_edit', 'display_name' => 'Edit Import Export', 'description' => 'Can edit Import Export details', 'category' => 'Import Export'],
+            ['name' => 'import_export_status', 'display_name' => 'Status Import Export', 'description' => 'Can status Import Export details', 'category' => 'Import Export'],
+            ['name' => 'import_export_delete', 'display_name' => 'Delete Import Export', 'description' => 'Can delete Import Export', 'category' => 'Import Export'],
+            ['name' => 'print_barcode_view', 'display_name' => 'View Print Barcode', 'description' => 'Can view print barcode', 'category' => 'Import Export'],
+
+            // Business Location Permissions
+            ['name' => 'business_location_manage', 'display_name' => 'Manage Business Locations', 'description' => 'Can manage business location list', 'category' => 'Business Location'],
+            ['name' => 'business_location_view', 'display_name' => 'View Business Locations', 'description' => 'Can view business location list', 'category' => 'Business Location'],
+            ['name' => 'business_location_create', 'display_name' => 'Create Business Location', 'description' => 'Can create new business location', 'category' => 'Business Location'],
+            ['name' => 'business_location_edit', 'display_name' => 'Edit Business Location', 'description' => 'Can edit business location details', 'category' => 'Business Location'],
+            ['name' => 'business_location_status', 'display_name' => 'Status Business Location', 'description' => 'Can status business location details', 'category' => 'Business Location'],
+            ['name' => 'business_location_delete', 'display_name' => 'Delete Business Location', 'description' => 'Can delete business location', 'category' => 'Business Location'],
+
+            // User Permissions
+            ['name' => 'user_manage', 'display_name' => 'Manage Users', 'description' => 'Can manage user list', 'category' => 'Users'],
+            ['name' => 'user_view', 'display_name' => 'View Users', 'description' => 'Can view user list', 'category' => 'Users'],
+            ['name' => 'user_create', 'display_name' => 'Create User', 'description' => 'Can create new user', 'category' => 'Users'],
+            ['name' => 'user_edit', 'display_name' => 'Edit User', 'description' => 'Can edit user details', 'category' => 'Users'],
+            ['name' => 'user_status', 'display_name' => 'Status User', 'description' => 'Can status user details', 'category' => 'Users'],
+            ['name' => 'user_delete', 'display_name' => 'Delete User', 'description' => 'Can delete user', 'category' => 'Users'],
+
+            // Module
+
+            [
+                'name' => 'hrm_manage',
+                'display_name' => 'Manage HRM Employee',
+                'description' => 'Can manage HRM list',
+                'category' => 'hrm',
+            ],
+
+            [
+                'name' => 'crm_manage',
+                'display_name' => 'Manage CRM ',
+                'description' => 'Can manage CRM list',
+                'category' => 'crm',
+            ],
+
+            [
+                'name' => 'inventory_manage',
+                'display_name' => 'Manage Inventory ',
+                'description' => 'Can manage Inventory list',
+                'category' => 'inventory',
+            ],
+            [
+                'name' => 'settings_manage',
+                'display_name' => 'Manage Settings ',
+                'description' => 'Can manage Settings list',
+                'category' => 'settings',
+            ],
+
+            // Employee Permissions
+            ['name' => 'employee_manage', 'display_name' => 'Manage Employees', 'description' => 'Can manage employee list', 'category' => 'Employees'],
+            ['name' => 'employee_view', 'display_name' => 'View Employees', 'description' => 'Can view employee list', 'category' => 'Employees'],
+            ['name' => 'employee_create', 'display_name' => 'Create Employee', 'description' => 'Can create new employee', 'category' => 'Employees'],
+            ['name' => 'employee_edit', 'display_name' => 'Edit Employee', 'description' => 'Can edit employee details', 'category' => 'Employees'],
+            ['name' => 'employee_status', 'display_name' => 'Status Employee', 'description' => 'Can status employee details', 'category' => 'Employees'],
+            ['name' => 'employee_delete', 'display_name' => 'Delete Employee', 'description' => 'Can delete employee', 'category' => 'Employees'],
+            ['name' => 'employee_attendance_view', 'display_name' => 'Attendance View Employee', 'description' => 'Can attendance view employee', 'category' => 'Employees'],
+            // designation Permissions
+            ['name' => 'designation_view', 'display_name' => 'View Designations', 'description' => 'Can view designation list', 'category' => 'Designations'],
+            ['name' => 'designation_create', 'display_name' => 'Create Designation', 'description' => 'Can create new designation', 'category' => 'Designations'],
+            ['name' => 'designation_edit', 'display_name' => 'Edit Designation', 'description' => 'Can edit designation details', 'category' => 'Designations'],
+            ['name' => 'designation_status', 'display_name' => 'Status Designation', 'description' => 'Can status designation details', 'category' => 'Designations'],
+            ['name' => 'designation_delete', 'display_name' => 'Delete Designation', 'description' => 'Can delete designation', 'category' => 'Designations'],
+            // department Permissions
+            ['name' => 'department_view', 'display_name' => 'View Departments', 'description' => 'Can view department list', 'category' => 'Departments'],
+            ['name' => 'department_create', 'display_name' => 'Create Department', 'description' => 'Can create new department', 'category' => 'Departments'],
+            ['name' => 'department_edit', 'display_name' => 'Edit Department', 'description' => 'Can edit department details', 'category' => 'Departments'],
+            ['name' => 'department_status', 'display_name' => 'Status Department', 'description' => 'Can status department details', 'category' => 'Departments'],
+            ['name' => 'department_delete', 'display_name' => 'Delete Department', 'description' => 'Can delete department', 'category' => 'Departments'],
+
+            // holiday Permissions
+            ['name' => 'holiday_view', 'display_name' => 'View Holidays', 'description' => 'Can view holiday list', 'category' => 'Holidays'],
+            ['name' => 'holiday_create', 'display_name' => 'Create Holiday', 'description' => 'Can create new holiday', 'category' => 'Holidays'],
+            ['name' => 'holiday_edit', 'display_name' => 'Edit Holiday', 'description' => 'Can edit holiday details', 'category' => 'Holidays'],
+            ['name' => 'holiday_status', 'display_name' => 'Status Holiday', 'description' => 'Can status holiday details', 'category' => 'Holidays'],
+            ['name' => 'holiday_delete', 'display_name' => 'Delete Holiday', 'description' => 'Can delete holiday', 'category' => 'Holidays'],
+
+            // asset Permissions
+            ['name' => 'asset_view', 'display_name' => 'View Assets', 'description' => 'Can view asset list', 'category' => 'Assets'],
+            ['name' => 'asset_create', 'display_name' => 'Create Asset', 'description' => 'Can create new asset', 'category' => 'Assets'],
+            ['name' => 'asset_edit', 'display_name' => 'Edit Asset', 'description' => 'Can edit asset details', 'category' => 'Assets'],
+            ['name' => 'asset_status', 'display_name' => 'Status Asset', 'description' => 'Can status asset details', 'category' => 'Assets'],
+            ['name' => 'asset_delete', 'display_name' => 'Delete Asset', 'description' => 'Can delete asset', 'category' => 'Assets'],
+
+            // Account Management Permissions
+            ['name' => 'account_manage', 'display_name' => 'Manage Accounts', 'description' => 'Can manage account list', 'category' => 'Accounts'],
+
+            // account
+            ['name' => 'account_view', 'display_name' => 'View Accounts', 'description' => 'Can view account list', 'category' => 'Accounts'],
+            ['name' => 'account_create', 'display_name' => 'Create Asset', 'description' => 'Can create new account', 'category' => 'account'],
+            ['name' => 'account_edit', 'display_name' => 'Edit Asset', 'description' => 'Can edit account details', 'category' => 'account'],
+            ['name' => 'account_status', 'display_name' => 'Status Asset', 'description' => 'Can status account details', 'category' => 'account'],
+            ['name' => 'account_delete', 'display_name' => 'Delete Asset', 'description' => 'Can delete account', 'category' => 'account'],
+
+            // account balance
+            ['name' => 'account_balance_view', 'display_name' => 'View Account Balance', 'description' => 'Can view account balance', 'category' => 'Accounts'],
+            ['name' => 'account_balance_create', 'display_name' => 'Create Asset', 'description' => 'Can create new account_balance', 'category' => 'account_balance'],
+            ['name' => 'account_balance_edit', 'display_name' => 'Edit Asset', 'description' => 'Can edit account_balance details', 'category' => 'account_balance'],
+            ['name' => 'account_balance_status', 'display_name' => 'Status Asset', 'description' => 'Can status account_balance details', 'category' => 'account_balance'],
+            ['name' => 'account_balance_delete', 'display_name' => 'Delete Asset', 'description' => 'Can delete account_balance', 'category' => 'account_balance'],
+
+            // account transaction
+            ['name' => 'account_transaction_view', 'display_name' => 'View Account Transactions', 'description' => 'Can view account transactions', 'category' => 'Accounts'],
+
+            // Tax
+            ['name' => 'tax_view', 'display_name' => 'View Tax', 'description' => 'Can view tax settings', 'category' => 'tax'],
+            ['name' => 'tax_create', 'display_name' => 'Create Asset', 'description' => 'Can create new tax', 'category' => 'tax'],
+            ['name' => 'tax_edit', 'display_name' => 'Edit Asset', 'description' => 'Can edit tax details', 'category' => 'tax'],
+            ['name' => 'tax_status', 'display_name' => 'Status Asset', 'description' => 'Can status tax details', 'category' => 'tax'],
+            ['name' => 'tax_delete', 'display_name' => 'Delete Asset', 'description' => 'Can delete tax', 'category' => 'tax'],
+
+            // Service Charge
+            ['name' => 'service_charge_view', 'display_name' => 'View Service Charge', 'description' => 'Can view service charges', 'category' => 'Settings'],
+            ['name' => 'service_charge_create', 'display_name' => 'Create Asset', 'description' => 'Can create new service_charge', 'category' => 'Settings'],
+            ['name' => 'service_charge_edit', 'display_name' => 'Edit Asset', 'description' => 'Can edit service_charge details', 'category' => 'Settings'],
+            ['name' => 'service_charge_status', 'display_name' => 'Status Asset', 'description' => 'Can status service_charge details', 'category' => 'Settings'],
+            ['name' => 'service_charge_delete', 'display_name' => 'Delete Asset', 'description' => 'Can delete service_charge', 'category' => 'Settings'],
+            // Discount
+            ['name' => 'discount_view', 'display_name' => 'View Discounts', 'description' => 'Can view discounts', 'category' => 'Settings'],
+            ['name' => 'discount_create', 'display_name' => 'Create Discounts', 'description' => 'Create discounts', 'category' => 'Settings'],
+            ['name' => 'discount_edit', 'display_name' => 'View Discounts', 'description' => ' view discounts', 'category' => 'Settings'],
+            ['name' => 'discount_status', 'display_name' => 'Change Discounts Status', 'description' => ' Change Status of discounts', 'category' => 'Settings'],
+            ['name' => 'discount_delete', 'display_name' => 'delete Discounts', 'description' => ' delete discounts', 'category' => 'Settings'],
+
+            // Subscription Plan
+
+            ['name' => 'subscription_plan_view', 'display_name' => 'View Subscription Plan', 'description' => 'Can view subscription plan', 'category' => 'Settings'],
+            ['name' => 'subscription_plan_create', 'display_name' => 'Create Subscription Plan', 'description' => 'Can create new subscription_plan', 'category' => 'Settings'],
+            ['name' => 'subscription_plan_edit', 'display_name' => 'Edit Subscription Plan', 'description' => 'Can edit subscription_plan details', 'category' => 'Settings'],
+            ['name' => 'subscription_plan_status', 'display_name' => 'Status Subscription Plan', 'description' => 'Can status subscription_plan details', 'category' => 'Settings'],
+            ['name' => 'subscription_plan_delete', 'display_name' => 'Delete Subscription Plan', 'description' => 'Can delete subscription_plan', 'category' => 'Settings'],
+        ];
+
+        DB::table('permissions')->insert($permissions);
+    }
+}

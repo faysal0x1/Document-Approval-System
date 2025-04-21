@@ -1,0 +1,51 @@
+<!-- resources/views/approvals/index.blade.php -->
+@extends('layouts.app')
+
+@section('content')
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">{{ __('My Approvals') }}</div>
+
+					<div class="card-body">
+						@if (session('status'))
+							<div class="alert alert-success" role="alert">
+								{{ session('status') }}
+							</div>
+						@endif
+
+						<table class="table table-bordered">
+							<thead>
+							<tr>
+								<th>{{ __('Document') }}</th>
+								<th>{{ __('Type') }}</th>
+								<th>{{ __('Submitted By') }}</th>
+								<th>{{ __('Step') }}</th>
+								<th>{{ __('Requested') }}</th>
+								<th>{{ __('Actions') }}</th>
+							</tr>
+							</thead>
+							<tbody>
+							@foreach($approvals as $approval)
+								<tr>
+									<td>#{{ $approval->document->id }}</td>
+									<td>{{ ucfirst(str_replace('_', ' ', $approval->document->type)) }}</td>
+									<td>{{ $approval->document->submitter->name }}</td>
+									<td>{{ $approval->workflowStep->name }} ({{ __('Step :number', ['number' => $approval->workflowStep->step_number]) }})</td>
+									<td>{{ $approval->created_at->format('m/d/Y H:i') }}</td>
+									<td>
+										<a href="{{ route('approvals.show', $approval) }}" class="btn btn-sm btn-primary">{{ __('Review') }}</a>
+									</td>
+								</tr>
+							@endforeach
+							</tbody>
+						</table>
+
+						{{ $approvals->links() }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+@endsection

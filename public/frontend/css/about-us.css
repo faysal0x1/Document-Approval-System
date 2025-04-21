@@ -1,0 +1,358 @@
+
+/* body {
+    background: linear-gradient(to right, #fff, #f8f9fa);
+} */
+
+.highlight {
+    color: #ff6600;
+}
+
+.section-img img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* founder css */
+.showcase-container {
+    /* position: relative; */
+    background-color: #f8f9fa;
+    padding: 0;
+    overflow: hidden;
+}
+
+.showcase-wrapper {
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.showcase-content {
+    padding: 2rem;
+    position: relative;
+}
+
+.showcase-image-image-container {
+    padding: 0;
+    position: relative;
+}
+
+.showcase-image-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.accent-curve {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+.title-highlight {
+    color: #FF8C42;
+    font-weight: bold;
+}
+
+.main-title {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.content-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #505050;
+    margin-bottom: 1.5rem;
+}
+
+.curve-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.showcase-bg {
+    position: relative;
+    background-color: #FFF1E6;
+    padding: 2rem;
+    border-radius: 10px;
+    z-index: 2;
+}
+
+@media (max-width: 767.98px) {
+    .showcase-content {
+        padding: 1.5rem;
+    }
+
+    .main-title {
+        font-size: 1.8rem;
+    }
+}
+
+.showcase-content {
+    /* margin-left: 20px; */
+}
+
+/* why section */
+/* Custom CSS */
+
+
+.journey-card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.journey-card:hover {
+    transform: translateY(-10px);
+}
+
+.dark-card {
+    background-color: #0b1737;
+    color: white;
+}
+
+.orange-card {
+    background-color: #f26e21;
+    color: white;
+}
+
+.journey-title {
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.orange-text {
+    color: #f26e21;
+}
+
+.white-text {
+    color: white;
+}
+
+.journey-content {
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.journey-image {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.journey-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 767px) {
+    .journey-card {
+        margin-bottom: 2rem;
+    }
+}
+
+.team-section {
+    padding: 4rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 4rem;
+    font-weight: 700;
+}
+
+.highlight {
+    color: #f26e21;
+}
+
+.team-member {
+    /* display: flex; */
+    align-items: center;
+    /* gap: 3rem; */
+}
+.member-image-container{
+   
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.one {
+    /* flex: 0 0 45%; */
+    /* position: relative; */
+    background-color: #415458;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    
+}
+
+/* member 2 */
+ .two {
+    
+    background-color: #c7b8b1;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 100%;
+    
+}
+
+.member-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.member-info {
+    /* flex: 0 0 50%; */
+}
+
+.quote {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    position: relative;
+    /* padding-left: 2rem; */
+    color: #555;
+}
+
+.quote::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(242, 110, 33, 0.1);
+    border-radius: 10px;
+}
+
+.member-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.member-title {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+
+.member-company {
+    font-size: 1.1rem;
+    color: #f26e21;
+    font-weight: 600;
+}
+
+@media (max-width: 991px) {
+    .team-member {
+        /* flex-direction: column; */
+        text-align: center;
+        /* gap: 2rem; */
+    }
+
+    .member-image-container {
+        /* flex: 0 0 100%; */
+        /* max-width: 350px; */
+        margin: 0 auto;
+    }
+
+    .quote {
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .quote::before {
+        display: none;
+    }
+}
+
+/* value ore ethics */
+
+
+.values-section {
+    padding: 5rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 4rem;
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+.highlight {
+    color: #f26e21;
+}
+
+.value-card {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.icon-wrapper {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.value-card:hover .icon-wrapper {
+    transform: translateY(-10px);
+}
+
+.people-bg {
+    background-color: #ffe6e6;
+}
+
+.progressive-bg {
+    background-color: #fff2e6;
+}
+
+.teamwork-bg {
+    background-color: #e6ffe6;
+}
+
+.transparency-bg {
+    background-color: #fff9e6;
+}
+
+.innovation-bg {
+    background-color: #ffe6f2;
+}
+
+.growth-bg {
+    background-color: #fff5e6;
+}
+
+.icon-wrapper i {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.value-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.value-desc {
+    color: #666;
+    line-height: 1.6;
+    font-size: 1rem;
+}

@@ -1,0 +1,266 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Helpers\StoreHelper;
+use App\Http\Controllers\Controller;
+use App\Models\Role;
+use App\Models\User;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
+use Throwable;
+use Yajra\DataTables\Facades\DataTables;
+
+class UserController extends Controller
+{
+    public function index(Request $request)
+    {
+        $allRoles = StoreHelper::getRole();
+
+        $allCompany = StoreHelper::getCompany();
+
+        $stores = StoreHelper::getStores();
+
+        if ($request->ajax()) {
+            $data = StoreHelper::getUser(false)->with('company');
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('role', function ($row) {
+                    return view('components.role-icon', ['allRoles' => $row->roles]);
+                })
+                ->addColumn('company', function ($row) {
+                    return $row->company->name ?? 'N/A';
+                })
+                ->addColumn('status', function ($row) {
+                    return view('components.status-toggle', [
+                        'id' => $row->id,
+                        'permission' => 'user',
+                        'model' => 'user',
+                        'status' => $row->status,
+                    ])->render();
+                })
+                ->addColumn('stores', function ($row) {
+                    return view('components.store-list', ['stores' => $row->stores])->render();
+                })
+                ->addColumn('store_assignment', function ($row) {
+                    return view('components.store-assignment-button', [
+                        'id' => $row->id,
+                        'modalTarget' => '#assignStoresModal',
+                    ])->render();
+                })
+                ->addColumn('action', function ($row) {
+                    return view('components.action-buttons', [
+                        'id' => $row->id,
+                        'model' => 'user',
+                        'permission' => 'user',
+
+                        'editModal' => 'editModal',
+                        'editModalRoute' => 'user.edit',
+
+                        // 'loadEditModal' => 'editDepartmentModal',
+                        // 'loadEditModalRoute' => 'user.edit',
+
+                        'deleteRoute' => 'user.destroy',
+                    ])->render();
+                })
+                ->rawColumns(['action', 'status', 'stores', 'store_assignment'])
+                ->make(true);
+        }
+
+        $role = Auth::user()->roles()->first()->name;
+
+        return view('admin.user.index', compact('allRoles', 'stores', 'allCompany'));
+    }
+
+    public function create()
+    {
+        $allRoles = StoreHelper::getRole();
+        $allCompany = StoreHelper::getCompany();
+
+        return view('admin.user.create', compact('allRoles', 'allCompany'));
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'password' => bcrypt($request->password),
+                'company_id' => $request->company,
+            ]);
+
+            //            if ($request->roles) {
+            //                foreach ($request->roles as $role) {
+            //                    $user->addRole($role);
+            //                    $roleModel = Role::findByName($role);
+            //                    if ($roleModel) {
+            //                        $permissions = $roleModel->permissions->pluck('name')->toArray();
+            //                        $user->syncPermissions($permissions, false);
+            //                    }
+            //                }
+            //            }
+            //
+            //            // Upload Photo
+            if ($request->hasFile('photo')) {
+                $photo = $request->file('photo');
+                $name_gen = hexdec(uniqid('', true)).'.'.$photo->getClientOriginalExtension();
+                Image::make($photo)->resize(300, 300)->save('upload/user/'.$name_gen);
+                $save_url = 'upload/user/'.$name_gen;
+                $user->update(['photo' => $save_url]);
+            }
+            DB::commit();
+
+            return redirect()->back()->with('success', 'user created successfully');
+        } catch (Throwable $th) {
+            DB::rollBack();
+
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function edit($id)
+    {
+        $data = User::with('roles', 'company')->findOrFail($id);
+
+        return response()->json($data);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @return JsonResponse
+     */
+    public function update(Request $request, int $id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $request->validate([
+                'editname' => 'required|string|max:255',
+                'editemail' => 'required|string|email|max:255',
+                'editphone' => 'nullable|string|max:20',
+                'editaddress' => 'nullable|string|max:255',
+                'photo' => 'nullable|image|max:5144',
+            ]);
+
+            $user->name = $request->input('editname');
+            $user->email = $request->input('editemail');
+            $user->phone = $request->input('editphone');
+            $user->address = $request->input('editaddress');
+            $user->company_id = $request->editCompany;
+
+            if ($request->editPassword) {
+                $user->password = bcrypt($request->editPassword);
+            }
+            $user->save();
+
+            if ($request->has('roles')) {
+                // Store current permissions to determine what to keep
+                $currentPermissions = $user->permissions()->pluck('name')->toArray();
+                $user->removeRoles();
+                // Track all permissions that should be kept based on new roles
+                $roleBasedPermissions = [];
+
+                foreach ($request->roles as $roleName) {
+                    $role = Role::where('name', $roleName)->first();
+                    if ($role) {
+                        // Add the role
+                        $user->addRole($role);
+                        // Get permissions for this role
+                        $rolePermissions = $role->permissions()->pluck('name')->toArray();
+                        $roleBasedPermissions = array_merge($roleBasedPermissions, $rolePermissions);
+                    }
+                }
+
+                $user->syncPermissions($roleBasedPermissions);
+            }
+
+            // Upload Photo
+            if ($request->hasFile('editphoto')) {
+                // Remove old image if exists
+                if ($user->photo) {
+                    $old_image = public_path($user->photo);
+                    if (file_exists($old_image)) {
+                        unlink($old_image);
+                    }
+                }
+
+                $photo = $request->file('editphoto');
+                $name_gen = hexdec(uniqid('', true)).'.'.$photo->getClientOriginalExtension();
+                Image::make($photo)->resize(300, 300)->save('upload/user/'.$name_gen);
+                $save_url = 'upload/user/'.$name_gen;
+
+                $user->update([
+                    'photo' => $save_url,
+                ]);
+            }
+            // Send welcome email
+            //  Mail::to($user->email)->send(new WelcomeUserMail($user));
+
+            return $this->success('User updated successfully', $user);
+        } catch (Throwable $exception) {
+            return $this->error('User not updated successfully: '.$exception->getMessage());
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, $id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            // Remove user's roles
+            $user->syncRoles([]);
+            // Delete user's photo if it exists
+            if ($user->photo) {
+                $old_image = public_path($user->photo);
+                if (file_exists($old_image)) {
+                    unlink($old_image);
+                }
+            }
+            $user->delete();
+
+            return $this->success('User deleted successfully');
+        } catch (Exception $e) {
+            return $this->error('User not deleted successfully: '.$e->getMessage());
+        }
+    }
+
+    public function getUserStores(User $user)
+    {
+        return response()->json([
+            'assigned_stores' => $user->stores,
+        ]);
+    }
+}

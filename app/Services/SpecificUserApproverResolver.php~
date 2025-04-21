@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Services;
+
+use App\Interfaces\ApproverResolverInterface;
+use App\Models\Document;
+use App\Models\User;
+use App\Models\WorkflowStep;
+use RuntimeException;
+
+class SpecificUserApproverResolver implements ApproverResolverInterface
+{
+    public function resolveApprover(WorkflowStep $step, Document $document): User
+    {
+        $userId = $step->approver_value;
+
+        $user = User::find($userId);
+
+        if (! $user) {
+            throw new RuntimeException("Specific user with ID {$userId} not found");
+        }
+
+        if (! $user->active) {
+            throw new RuntimeException("User {$user->id} is not active");
+        }
+
+        return $user;
+    }
+}

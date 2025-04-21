@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Document extends Model
+{
+    protected $guarded = [];
+
+    protected $casts = [
+        'content' => 'array',
+    ];
+
+    public function workflow()
+    {
+        return $this->belongsTo(Workflow::class, 'type', 'document_type');
+    }
+
+    public function approvals()
+    {
+        return $this->hasMany(Approval::class);
+    }
+
+    public function submitter()
+    {
+        return $this->belongsTo(User::class, 'submitter_id');
+    }
+
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class);
+    }
+
+    public function currentApproval()
+    {
+        return $this->hasOne(Approval::class)
+            ->where('status', 'pending')
+            ->orderBy('created_at', 'desc')
+            ->with('workflowStep');
+    }
+}
