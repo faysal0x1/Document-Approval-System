@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/approvals/{approval}/reject', [ApprovalController::class, 'reject'])->name('approvals.reject');
 
     defineRoleBasedRoutes(function () {
-        Route::resource('user', UserController::class);
+        Route::resource('users', UserController::class);
 
         // Admin routes
         Route::resource('document-types', DocumentTypeController::class);

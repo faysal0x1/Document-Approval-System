@@ -32,12 +32,34 @@
 							<label for="phone">Phone</label>
 							<input type="text" name="phone" id="phone" class="form-control" required>
 						</div>
+						<div class="col-md-7 mb-3">
+							<label for="role">Role</label>
+							<select name="roles[]" id="role" class="form-control select2" multiple>
+								<option value="" disabled>Select Role</option>
+								@foreach ($allRoles as $roles)
+									<option value="{{ $roles->name }}">
+										{{ $roles->name }}
+									</option>
+								@endforeach
+							</select>
+						</div>
 
 						<div class="col-md-6 mb-3">
 							<label for="password">Password</label>
 							<input type="password" name="password" id="password" class="form-control" required>
 						</div>
 
+
+						<div class="col-md-6 mb-3">
+							<label for="company">Company</label>
+							<select name="company" id="company" class="form-control select2">
+								@foreach ($allCompany as $company)
+									<option value="{{ $company->id }}">
+										{{ $company->name }}
+									</option>
+								@endforeach
+							</select>
+						</div>
 
 						<div class="col-md-6 mt-3">
 							<div class="form-group">

@@ -17,8 +17,58 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            ['name' => 'dashboard_view', 'display_name' => 'View Dashboard', 'description' => 'Can view dashboard', 'category' => 'Dashboard'],
 
+            // Dashboard
+            'dashboard_view',
+
+            // Documents
+            'create-documents',
+            'status-documents',
+            'view-documents',
+            'store-documents',
+            'show-document-form',
+            'view-submitted-document',
+            'show-document',
+
+            // Approvals
+            'view-approvals',
+            'show-approval',
+            'approve-approval',
+            'status-approval',
+            'reject-approval',
+
+            // Profile
+            'edit-profile',
+            'update-profile',
+            'delete-profile',
+
+            // User Management (Admin)
+            'view-users',
+            'create-user',
+            'edit-user',
+            'delete-user',
+            'status-user',
+            'show-user',
+
+            // Document Types (Admin)
+            'view-document-types',
+            'create-document-type',
+            'edit-document-type',
+            'delete-document-type',
+            'status-document-type',
+            'show-document-type',
+
+            // Workflows (Admin)
+            'view-workflows',
+            'create-workflow',
+            'edit-workflow',
+            'delete-workflow',
+
+            // Workflow Steps
+            'add-workflow-step',
+            'edit-workflow-step',
+            'delete-workflow-step',
+            'update-workflow-step',
         ];
 
         DB::table('permissions')->insert($permissions);

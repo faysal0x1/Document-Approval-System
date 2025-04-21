@@ -1,5 +1,4 @@
 @php
-	// $role = auth()->user()->roles()->first()->name ?? 'guest';
 	$role = auth()->user()?->roles()?->first()?->name ?? 'admin';
 @endphp
 
@@ -55,15 +54,11 @@
 						<a href="{{ route('documents.index') }}"
 						   class="{{ request()->routeIs('documents.index') ? 'active' : '' }}">
 							<i class="fas fa-list"></i> My Documents
-							{{--							@if($pendingDocumentsCount > 0)--}}
-							{{--								<span class="sidebar-badge">{{ $pendingDocumentsCount }}</span>--}}
-							{{--							@endif--}}
 						</a>
 					</li>
 				</ul>
 			</li>
 
-			<!-- Approvals Section -->
 			<li>
 				<a href="javascript:" class="has-arrow">
 					<div class="parent-icon"><i class="fas fa-thumbs-up"></i></div>
@@ -74,14 +69,37 @@
 						<a href="{{ route('approvals.index') }}"
 						   class="{{ request()->routeIs('approvals.*') ? 'active' : '' }}">
 							<i class="fas fa-check-circle"></i> My Approvals
-{{--							@if($pendingApprovalsCount > 0)--}}
-{{--								<span class="sidebar-badge badge-danger">{{ $pendingApprovalsCount }}</span>--}}
-{{--							@endif--}}
 						</a>
 					</li>
 				</ul>
 			</li>
 
+
+			<li>
+				<a href="javascript:" class="has-arrow">
+					<div class="parent-icon"><i class="bx bx-shield"></i></div>
+					<div class="menu-title">Settings</div>
+				</a>
+				<ul>
+					<li>
+						<a href="{{ url('/laratrust') }}"><i class="bx bx-user-check"></i>Role Assignment</a>
+					</li>
+				</ul>
+			</li>
+
+			<li>
+				<a href="javascript:" class="has-arrow">
+					<div class="parent-icon"><i class="bx bx-user-circle"></i></div>
+					<div class="menu-title">Users</div>
+				</a>
+				<ul>
+					<li>
+						<a href="{{ route($role . '.user.index') }}"><i class="bx bx-list-ul"></i>List of
+						                                                                          Users</a>
+					</li>
+
+				</ul>
+			</li>
 		</ul>
 	</div>
 @endauth

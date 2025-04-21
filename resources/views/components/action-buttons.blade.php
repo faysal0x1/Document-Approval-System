@@ -7,7 +7,7 @@
 
 		{{-- Load View Modal  --}}
 		@if (isset($loadViewModal,$permission) && $loadViewModalRoute)
-			@can($permission.'_view')
+			@can($permission.'-view')
 				<li>
 					<a class="dropdown-item" href="#"
 					   onclick="showViewModal(
@@ -24,33 +24,34 @@
 
 		{{-- Load Edit Modal  --}}
 		@if (isset($loadEditModal , $permission) && $loadEditModalRoute)
-
-			<li>
-				<a class="dropdown-item" href="#"
-				   onclick="loadEditModal(
+			@can($permission.'-edit')
+				<li>
+					<a class="dropdown-item" href="#"
+					   onclick="loadEditModal(
                         '{{ route($role . $loadEditModalRoute, $id) }}',
                         '{{ $loadEditModal }}',
                         {id: '{{ $id }}'}
                     ); return false;">
-					<i class="fas fa-edit"></i> Edit
-				</a>
-			</li>
+						<i class="fas fa-edit"></i> Edit
+					</a>
+				</li>
+			@endcan
 		@endif
 		{{-- Delete Option --}}
 		@if (isset($deleteRoute, $permission) && $deleteRoute)
-			{{--			@can($permission.'_delete')--}}
-			<li>
-				<form action="{{ route($role . $deleteRoute, $id) }}" method="POST" class="delete-form">
-					@csrf
-					@method('DELETE')
-					<button type="button" class="dropdown-item delete-btn" data-id="{{ $id }}"
-					        data-model="{{ $model ?? '' }}">
-						<i class="fas fa-trash"></i> Delete
-					</button>
-				</form>
-			</li>
+			@can($permission.'-delete')
+				<li>
+					<form action="{{ route($role . $deleteRoute, $id) }}" method="POST" class="delete-form">
+						@csrf
+						@method('DELETE')
+						<button type="button" class="dropdown-item delete-btn" data-id="{{ $id }}"
+						        data-model="{{ $model ?? '' }}">
+							<i class="fas fa-trash"></i> Delete
+						</button>
+					</form>
+				</li>
 
-			{{--			@endcan--}}
+			@endcan
 		@endif
 
 	</ul>

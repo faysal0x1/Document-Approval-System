@@ -67,12 +67,11 @@
 		<!-- Assign Stores modal -->
 		@include('admin.user.edit')
 
-		@endsection
+@endsection
 
 		@push('script')
 			<script>
                 initializeSelect2();
-
                 function initializeSelect2(element) {
                     let target = element ? element.find('.select2') : $('.select2');
                     target.select2({
@@ -85,7 +84,6 @@
 			@include('import.js.datatable')
 			<script>
                 loadTable();
-
                 function loadTable() {
                     const columns = [
                         {
@@ -113,7 +111,21 @@
                         {
                             data: 'email',
                             name: 'email'
-                        }];
+                        },
+                        {
+                            data: 'stores',
+                            name: 'stores',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'store_assignment',
+                            name: 'store_assignment',
+                            orderable: false,
+                            searchable: false
+                        },
+
+                    ];
                     initDataTable
                     (
                         '#example2',

@@ -83,16 +83,24 @@
 
                     $('#editphone').val(response.phone);
 
+                    let roleNames = response.roles.map(role => role.name);
+                    $('#editrole').val(roleNames).trigger('change');
+
+                    $('#editCompany').val(response.company_id).trigger('change');
+
                     if (response.photo && response.photo !== null) {
                         $('#editshowImage').attr('src', window.location.origin + "/" + response.photo);
                     } else {
                         $('#editshowImage').attr('src', window.location.origin + "/upload/no_image.jpg");
                     }
+                    // Note: We don't set the document input, as it's a file input
+
                     $('#editModal').modal('show');
                 } else {
                     console.error('Invalid response format:', response);
                     alert('Received invalid data from the server.');
                 }
+
                 hideLoader();
             },
             error: function (xhr, status, error) {
@@ -114,13 +122,16 @@
         const updateUrl = `{{ route($role . 'user.update', ':id') }}`.replace(':id', userId);
 
 
-        let formData = new FormData($('#editForm')[0]);
+        let formData = new FormData($('#editForm')[0]); // Create a FormData object
+
+        // console.log('Update URL:', updateUrl);
+
         $.ajax({
             url: updateUrl,
             method: 'POST',
             data: formData,
-            contentType: false,
-            processData: false,
+            contentType: false, // Prevent jQuery from setting content type
+            processData: false, // Prevent jQuery from processing the data
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
