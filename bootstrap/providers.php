@@ -7,6 +7,7 @@ return [
     App\Providers\RoleServiceProvider::class,
     App\Providers\RoleSessionServiceProvider::class,
     App\Providers\RouteServiceProvider::class,
+    App\Providers\SidebarDataServiceProvider::class,
     Barryvdh\Debugbar\ServiceProvider::class,
     Milon\Barcode\BarcodeServiceProvider::class,
     Yajra\DataTables\DataTablesServiceProvider::class,

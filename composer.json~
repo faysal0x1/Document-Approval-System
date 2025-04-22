@@ -9,19 +9,17 @@
   "license": "MIT",
   "require": {
     "php": "^8.2",
-    "consoletvs/charts": "^6.8",
     "intervention/image": "2.7",
     "laravel/breeze": "^2.1",
     "laravel/framework": "^11.9",
     "laravel/tinker": "^2.9",
     "livewire/livewire": "^3.5",
-    "maatwebsite/excel": "^1.1",
     "php-open-source-saver/jwt-auth": "^2.8",
     "picqer/php-barcode-generator": "^3.2",
     "santigarcor/laratrust": "^8.3",
-    "stripe/stripe-php": "^16.4",
     "symfony/finder": "^7.1",
-    "yajra/laravel-datatables-oracle": "11.0"
+    "yajra/laravel-datatables-oracle": "11.0",
+    "ext-pdo": "*"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.14",
@@ -68,6 +66,14 @@
       "@php artisan key:generate --ansi",
       "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
       "@php artisan migrate --graceful --ansi"
+    ],
+    "setup": [
+      "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+      "@php artisan vendor:publish --tag=livewire:assets --ansi --force",
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+      "@php artisan key:generate --ansi",
+      "@php scripts/create_database.php",
+      "@php artisan migrate:fresh --seed --ansi"
     ]
   },
   "extra": {

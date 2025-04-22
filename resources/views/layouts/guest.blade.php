@@ -31,7 +31,7 @@
 			<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-2">
 				<div class="col mx-auto">
 					<div class="my-4 text-center">
-						<img src="{{ asset('site/logo.png') }}" width="180" alt=""/>
+						<img src="{{ asset('site/logo.svg') }}" width="180" alt=""/>
 					</div>
 					{{ $slot }}
 				</div>

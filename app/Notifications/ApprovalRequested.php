@@ -5,14 +5,14 @@
 namespace App\Notifications;
 
 use App\Models\Approval;
-use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
+// class ApprovalRequested extends Notification
 class ApprovalRequested extends Notification implements ShouldQueue
 {
-    use Queueable;
+    //    use Queueable;
 
     public Approval $approval;
 

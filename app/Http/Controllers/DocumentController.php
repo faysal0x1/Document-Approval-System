@@ -24,10 +24,20 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        $documents = Document::with(['currentApproval', 'approvals.workflowStep'])
+        $documents = Document::with(['approvals.workflowStep'])
             ->where('submitter_id', auth()->id())
             ->latest()
             ->paginate(10);
+
+        $documents->each(function ($doc) {
+            $doc->setRelation(
+                'currentApproval',
+                $doc->approvals
+                    ->where('status', 'pending')
+                    ->sortByDesc('created_at')
+                    ->first()
+            );
+        });
 
         return view('admin.documents.index', compact('documents'));
     }

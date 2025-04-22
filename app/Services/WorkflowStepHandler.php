@@ -41,7 +41,6 @@ class WorkflowStepHandler
             $this->sendNotification($approver, $approval);
 
         } catch (Exception $e) {
-            // Log the error and provide more context
             Log::error('Failed to process workflow step', [
                 'document_id' => $document->id,
                 'step_id' => $step->id,

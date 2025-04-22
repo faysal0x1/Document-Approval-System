@@ -20,7 +20,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
 
 	<link rel="stylesheet" href="{{ asset('backend/css/dark-theme.css') }}"/>
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
 	<link rel="stylesheet" href="{{ asset('backend/css/semi-dark.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('backend/css/header-colors.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('backend/css/custom.css') }}"/>
@@ -72,10 +72,6 @@
 	</footer>
 </div>
 <!--end wrapper-->
-<!--start switcher-->
-
-<!--end switcher-->
-
 <!--plugins-->
 <script src="{{ asset('backend/js/jquery.min.js') }}"></script>
 <!-- Bootstrap JS -->
@@ -127,7 +123,6 @@
 <script src="{{asset('backend/js/modal-handler.js')}}"></script>
 
 
-
 <script defer src="{{asset('backend/js/axios.min.js')}}"></script>
 <script src="{{ asset('backend/js/sweetalert.js') }}"></script>
 <script src="{{ asset('backend/js/custom.js') }}"></script>
@@ -140,9 +135,6 @@
         var id = $(this).data("id");
         var state = $(this).prop("checked");
         var checkbox = $(this);
-
-        console.log(model, id, state);
-
         Swal.fire({
             title: "Are you sure?",
             text: "You want to change the status!",
